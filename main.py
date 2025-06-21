@@ -11,24 +11,13 @@ from dramatiq.results import Results
 from dramatiq.results.backends import RedisBackend
 import logging
 import os
-
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-from fastapi import FastAPI
-from auth_router import auth_router, configure_oauth
-from supabase_client import save_user, get_customer_data, save_customer_data, subscribe_user, unsubscribe_user, is_user_subscribed
-from email_scheduler import start_scheduler
-import logging
-import os
 from dotenv import load_dotenv
 
-load_dotenv()
-
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+load_dotenv()
 
 app = FastAPI()
 app.include_router(auth_router, prefix="/auth")
