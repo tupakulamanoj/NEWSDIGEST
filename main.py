@@ -23,11 +23,15 @@ app = FastAPI()
 app.include_router(auth_router, prefix="/auth")
 configure_oauth(app)
 
-# Configure Dramatiq with Redis
+from dramatiq.brokers.redis import RedisBroker
+from dramatiq.results import Results
+from dramatiq.results.backends import RedisBackend
+import dramatiq
+
 redis_url = os.getenv('REDIS_URL', 'redis://redis-service:6379')
 broker = RedisBroker(url=redis_url)
 broker.add_middleware(Results(backend=RedisBackend(url=redis_url)))
-Broker.set_default(broker)
+dramatiq.set_broker(broker)
 
 # Start scheduler
 def start_app():
