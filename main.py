@@ -34,9 +34,31 @@ broker.add_middleware(Results(backend=RedisBackend(url=redis_url)))
 dramatiq.set_broker(broker)
 
 # Start scheduler
-def start_app():
-    start_scheduler()
-    logger.info("Application started and scheduler initialized")
+def start_scheduler():
+    """Start the scheduler for sending emails."""
+    # Configure Redis connection
+    redis_url = os.getenv('REDIS_URL')
+    if not redis_url:
+        raise ValueError("REDIS_URL environment variable is not set")
+    
+    # Configure scheduler
+    executors = {
+        'default': ThreadPoolExecutor(20),
+        'processpool': ProcessPoolExecutor(5)
+    }
+    job_defaults = {
+        'coalesce': False,
+        'max_instances': 3
+    }
+    scheduler = BackgroundScheduler(executors=executors, job_defaults=job_defaults)
+    scheduler.add_job(
+        check_and_send_emails, 
+        'interval', 
+        minutes=5,
+        max_instances=1
+    )
+    scheduler.start()
+    return scheduler
 
 @app.on_event("startup")
 async def startup_event():
