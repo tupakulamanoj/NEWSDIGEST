@@ -16,3 +16,5 @@ python-jose[cryptography]==3.3.0
 pydantic==2.5.3
 redis==5.0.1
 dramatiq==1.15.0
+redis==5.0.1
+dramatiq==1.15.0
