@@ -1,0 +1,381 @@
+2025-06-20 15:10:24,261 - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-06-20 15:10:24,262 - INFO - Added job "check_and_send_emails" to job store "default"
+2025-06-20 15:10:24,262 - INFO - Scheduler started
+2025-06-20 15:10:24,264 - INFO - Email scheduler started.
+2025-06-20 15:10:24,264 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:15:24 IST)" (scheduled at 2025-06-20 15:10:24.260116+05:30)
+2025-06-20 15:10:24,265 - INFO - 
+==================================================
+Email check at 2025-06-20 15:10:24.265636+05:30 IST (hour: 15)
+==================================================
+2025-06-20 15:10:24,720 - ERROR - Scheduler failure: [Errno 11001] getaddrinfo failed
+2025-06-20 15:10:24,721 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:15:24 IST)" executed successfully
+2025-06-20 15:10:50,468 - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-1' coro=<Server.serve() done, defined at C:\Users\T Manoj\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\uvicorn\server.py:68> exception=KeyboardInterrupt()>
+Traceback (most recent call last):
+  File "C:\Users\T Manoj\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\uvicorn\main.py", line 580, in run
+    server.run()
+    ~~~~~~~~~~^^
+  File "C:\Users\T Manoj\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\uvicorn\server.py", line 66, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\T Manoj\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\nest_asyncio.py", line 30, in run
+    return loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\T Manoj\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\nest_asyncio.py", line 92, in run_until_complete
+    self._run_once()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\T Manoj\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\nest_asyncio.py", line 133, in _run_once
+    handle._run()
+    ~~~~~~~~~~~^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.1008.0_x64__qbz5n2kfra8p0\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.1008.0_x64__qbz5n2kfra8p0\Lib\asyncio\tasks.py", line 386, in __wakeup
+    self.__step()
+    ~~~~~~~~~~~^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.1008.0_x64__qbz5n2kfra8p0\Lib\asyncio\tasks.py", line 293, in __step
+    self.__step_run_and_handle_result(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.1008.0_x64__qbz5n2kfra8p0\Lib\asyncio\tasks.py", line 304, in __step_run_and_handle_result
+    result = coro.send(None)
+  File "C:\Users\T Manoj\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\uvicorn\server.py", line 69, in serve
+    with self.capture_signals():
+         ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.1008.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "C:\Users\T Manoj\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\uvicorn\server.py", line 330, in capture_signals
+    signal.raise_signal(captured_signal)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+2025-06-20 15:11:02,993 - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-06-20 15:11:02,995 - INFO - Added job "check_and_send_emails" to job store "default"
+2025-06-20 15:11:02,996 - INFO - Scheduler started
+2025-06-20 15:11:03,001 - INFO - Email scheduler started.
+2025-06-20 15:11:03,002 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:11:02 IST)" (scheduled at 2025-06-20 15:11:02.990539+05:30)
+2025-06-20 15:11:03,005 - INFO - 
+==================================================
+Email check at 2025-06-20 15:11:03.005467+05:30 IST (hour: 15)
+==================================================
+2025-06-20 15:11:03,809 - ERROR - Scheduler failure: [Errno 11001] getaddrinfo failed
+2025-06-20 15:11:03,810 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:16:02 IST)" executed successfully
+2025-06-20 15:14:20,153 - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-06-20 15:14:20,154 - INFO - Added job "check_and_send_emails" to job store "default"
+2025-06-20 15:14:20,154 - INFO - Scheduler started
+2025-06-20 15:14:20,156 - INFO - Email scheduler started.
+2025-06-20 15:14:20,156 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:14:20 IST)" (scheduled at 2025-06-20 15:14:20.151587+05:30)
+2025-06-20 15:14:20,158 - INFO - 
+==================================================
+Email check at 2025-06-20 15:14:20.158195+05:30 IST (hour: 15)
+==================================================
+2025-06-20 15:14:20,897 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 15:14:20,900 - INFO - Found 3 users
+2025-06-20 15:14:20,970 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 15:14:20,971 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 15:14:21,024 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 15:14:21,025 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 15:14:21,026 - INFO - Total emails queued: 0
+2025-06-20 15:14:21,026 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:19:20 IST)" executed successfully
+2025-06-20 15:14:36,321 - INFO - HTTP Request: GET https://accounts.google.com/.well-known/openid-configuration "HTTP/1.1 200 OK"
+2025-06-20 15:14:42,101 - INFO - HTTP Request: POST https://oauth2.googleapis.com/token "HTTP/1.1 200 OK"
+2025-06-20 15:14:42,754 - INFO - HTTP Request: GET https://www.googleapis.com/oauth2/v3/certs "HTTP/1.1 200 OK"
+2025-06-20 15:14:42,889 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 15:14:42,962 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 15:19:20,153 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:24:20 IST)" (scheduled at 2025-06-20 15:19:20.151587+05:30)
+2025-06-20 15:19:20,154 - INFO - 
+==================================================
+Email check at 2025-06-20 15:19:20.153977+05:30 IST (hour: 15)
+==================================================
+2025-06-20 15:19:20,673 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 15:19:20,675 - INFO - Found 3 users
+2025-06-20 15:19:20,741 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 15:19:20,744 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 15:19:20,848 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 15:19:20,850 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 15:19:20,852 - INFO - Total emails queued: 0
+2025-06-20 15:19:20,853 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:24:20 IST)" executed successfully
+2025-06-20 15:24:20,164 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:29:20 IST)" (scheduled at 2025-06-20 15:24:20.151587+05:30)
+2025-06-20 15:24:20,165 - INFO - 
+==================================================
+Email check at 2025-06-20 15:24:20.165452+05:30 IST (hour: 15)
+==================================================
+2025-06-20 15:24:20,670 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 15:24:20,673 - INFO - Found 3 users
+2025-06-20 15:24:20,793 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 15:24:20,795 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 15:24:20,847 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 15:24:20,848 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 15:24:20,849 - INFO - Total emails queued: 0
+2025-06-20 15:24:20,849 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:29:20 IST)" executed successfully
+2025-06-20 15:26:09,263 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 15:26:09,332 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 15:29:11,495 - INFO - HTTP Request: POST https://oauth2.googleapis.com/token "HTTP/1.1 200 OK"
+2025-06-20 15:29:11,984 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 15:29:12,153 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 15:29:20,164 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:34:20 IST)" (scheduled at 2025-06-20 15:29:20.151587+05:30)
+2025-06-20 15:29:20,165 - INFO - 
+==================================================
+Email check at 2025-06-20 15:29:20.164947+05:30 IST (hour: 15)
+==================================================
+2025-06-20 15:29:20,255 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 15:29:20,259 - INFO - Found 3 users
+2025-06-20 15:29:20,324 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 15:29:20,327 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 15:29:20,396 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 15:29:20,397 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 15:29:20,398 - INFO - Total emails queued: 0
+2025-06-20 15:29:20,398 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:34:20 IST)" executed successfully
+2025-06-20 15:34:20,162 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:39:20 IST)" (scheduled at 2025-06-20 15:34:20.151587+05:30)
+2025-06-20 15:34:20,164 - INFO - 
+==================================================
+Email check at 2025-06-20 15:34:20.164501+05:30 IST (hour: 15)
+==================================================
+2025-06-20 15:34:20,610 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 15:34:20,613 - INFO - Found 3 users
+2025-06-20 15:34:20,735 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 15:34:20,737 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 15:34:20,811 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 15:34:20,814 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 15:34:20,815 - INFO - Total emails queued: 0
+2025-06-20 15:34:20,816 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:39:20 IST)" executed successfully
+2025-06-20 15:39:20,159 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:44:20 IST)" (scheduled at 2025-06-20 15:39:20.151587+05:30)
+2025-06-20 15:39:20,161 - INFO - 
+==================================================
+Email check at 2025-06-20 15:39:20.161035+05:30 IST (hour: 15)
+==================================================
+2025-06-20 15:39:20,773 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 15:39:20,775 - INFO - Found 3 users
+2025-06-20 15:39:20,892 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 15:39:20,894 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 15:39:21,009 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 15:39:21,011 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 15:39:21,012 - INFO - Total emails queued: 0
+2025-06-20 15:39:21,013 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:44:20 IST)" executed successfully
+2025-06-20 15:39:47,142 - INFO - HTTP Request: POST https://oauth2.googleapis.com/token "HTTP/1.1 200 OK"
+2025-06-20 15:39:47,311 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 15:39:47,364 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 15:44:20,156 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:49:20 IST)" (scheduled at 2025-06-20 15:44:20.151587+05:30)
+2025-06-20 15:44:20,157 - INFO - 
+==================================================
+Email check at 2025-06-20 15:44:20.157264+05:30 IST (hour: 15)
+==================================================
+2025-06-20 15:44:20,800 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 15:44:20,804 - INFO - Found 3 users
+2025-06-20 15:44:20,867 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 15:44:20,870 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 15:44:20,984 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 15:44:20,986 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 15:44:20,987 - INFO - Total emails queued: 0
+2025-06-20 15:44:20,987 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:49:20 IST)" executed successfully
+2025-06-20 15:47:45,321 - INFO - HTTP Request: POST https://oauth2.googleapis.com/token "HTTP/1.1 200 OK"
+2025-06-20 15:47:45,791 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 15:47:45,854 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 15:49:20,162 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:54:20 IST)" (scheduled at 2025-06-20 15:49:20.151587+05:30)
+2025-06-20 15:49:20,164 - INFO - 
+==================================================
+Email check at 2025-06-20 15:49:20.164180+05:30 IST (hour: 15)
+==================================================
+2025-06-20 15:49:20,258 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 15:49:20,260 - INFO - Found 3 users
+2025-06-20 15:49:20,372 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 15:49:20,375 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 15:49:20,432 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 15:49:20,435 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 15:49:20,515 - INFO - Total emails queued: 0
+2025-06-20 15:49:20,545 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 15:54:20 IST)" executed successfully
+2025-06-20 16:05:36,319 - WARNING - Run time of job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:09:20 IST)" was missed by 0:01:16.165980
+2025-06-20 16:09:20,154 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:14:20 IST)" (scheduled at 2025-06-20 16:09:20.151587+05:30)
+2025-06-20 16:09:20,155 - INFO - 
+==================================================
+Email check at 2025-06-20 16:09:20.155797+05:30 IST (hour: 16)
+==================================================
+2025-06-20 16:09:20,655 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 16:09:20,659 - INFO - Found 3 users
+2025-06-20 16:09:20,756 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 16:09:20,761 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 16:09:20,848 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 16:09:20,852 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 16:09:20,854 - INFO - Total emails queued: 0
+2025-06-20 16:09:20,855 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:14:20 IST)" executed successfully
+2025-06-20 16:14:20,167 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:19:20 IST)" (scheduled at 2025-06-20 16:14:20.151587+05:30)
+2025-06-20 16:14:20,169 - INFO - 
+==================================================
+Email check at 2025-06-20 16:14:20.169668+05:30 IST (hour: 16)
+==================================================
+2025-06-20 16:14:20,710 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 16:14:20,714 - INFO - Found 3 users
+2025-06-20 16:14:20,837 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 16:14:20,841 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 16:14:20,910 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 16:14:20,915 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 16:14:20,918 - INFO - Total emails queued: 0
+2025-06-20 16:14:20,924 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:19:20 IST)" executed successfully
+2025-06-20 16:19:20,159 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:24:20 IST)" (scheduled at 2025-06-20 16:19:20.151587+05:30)
+2025-06-20 16:19:20,161 - INFO - 
+==================================================
+Email check at 2025-06-20 16:19:20.161010+05:30 IST (hour: 16)
+==================================================
+2025-06-20 16:19:20,660 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 16:19:20,665 - INFO - Found 3 users
+2025-06-20 16:19:20,749 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 16:19:20,752 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 16:19:20,823 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 16:19:20,826 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 16:19:20,831 - INFO - Total emails queued: 0
+2025-06-20 16:19:20,831 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:24:20 IST)" executed successfully
+2025-06-20 16:24:20,160 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:29:20 IST)" (scheduled at 2025-06-20 16:24:20.151587+05:30)
+2025-06-20 16:24:20,161 - INFO - 
+==================================================
+Email check at 2025-06-20 16:24:20.161495+05:30 IST (hour: 16)
+==================================================
+2025-06-20 16:24:20,607 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 16:24:20,627 - INFO - Found 3 users
+2025-06-20 16:24:20,694 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 16:24:20,695 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 16:24:20,770 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 16:24:20,771 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 16:24:20,771 - INFO - Total emails queued: 0
+2025-06-20 16:24:20,772 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:29:20 IST)" executed successfully
+2025-06-20 16:26:05,477 - INFO - HTTP Request: POST https://oauth2.googleapis.com/token "HTTP/1.1 200 OK"
+2025-06-20 16:26:05,976 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:26:06,094 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:26:20,722 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:26:20,859 - INFO - HTTP Request: PATCH https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:26:20,956 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:26:21,009 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:26:21,089 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:26:21,239 - INFO - HTTP Request: POST https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers "HTTP/2 201 Created"
+2025-06-20 16:26:23,397 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:26:23,514 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:26:23,583 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:26:23,647 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:26:52,687 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:26:52,749 - INFO - HTTP Request: PATCH https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:26:52,866 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:26:52,938 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:26:53,017 - INFO - HTTP Request: PATCH https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:27:26,619 - INFO - HTTP Request: POST https://oauth2.googleapis.com/token "HTTP/1.1 200 OK"
+2025-06-20 16:27:26,739 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:27:26,810 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:27:26,876 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:27:26,931 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:29:20,176 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:34:20 IST)" (scheduled at 2025-06-20 16:29:20.151587+05:30)
+2025-06-20 16:29:20,177 - INFO - 
+==================================================
+Email check at 2025-06-20 16:29:20.177734+05:30 IST (hour: 16)
+==================================================
+2025-06-20 16:29:20,698 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 16:29:20,699 - INFO - Found 3 users
+2025-06-20 16:29:20,764 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 16:29:20,765 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 16:29:20,868 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 16:29:20,870 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 16:29:20,927 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:29:20,979 - INFO - HTTP Request: POST https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker "HTTP/2 201 Created"
+2025-06-20 16:29:20,982 - INFO - Created temp tracker entry for hello@gmail.com - sending first email
+2025-06-20 16:29:21,053 - INFO - HTTP Request: POST https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker "HTTP/2 200 OK"
+2025-06-20 16:29:21,359 - INFO - Queued email for hello@gmail.com
+2025-06-20 16:29:21,359 - INFO - Total emails queued: 1
+2025-06-20 16:29:21,359 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:34:20 IST)" executed successfully
+2025-06-20 16:34:20,156 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:39:20 IST)" (scheduled at 2025-06-20 16:34:20.151587+05:30)
+2025-06-20 16:34:20,157 - INFO - 
+==================================================
+Email check at 2025-06-20 16:34:20.157692+05:30 IST (hour: 16)
+==================================================
+2025-06-20 16:34:20,620 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 16:34:20,625 - INFO - Found 3 users
+2025-06-20 16:34:20,699 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 16:34:20,701 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 16:34:20,764 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 16:34:20,766 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 16:34:20,821 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:34:20,823 - INFO - Skipping hello@gmail.com - email already queued/in progress
+2025-06-20 16:34:20,823 - INFO - Total emails queued: 0
+2025-06-20 16:34:20,824 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:39:20 IST)" executed successfully
+2025-06-20 16:35:52,846 - INFO - HTTP Request: POST https://oauth2.googleapis.com/token "HTTP/1.1 200 OK"
+2025-06-20 16:35:52,962 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:35:53,020 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:35:53,070 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:35:53,121 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:36:07,718 - INFO - HTTP Request: POST https://oauth2.googleapis.com/token "HTTP/1.1 200 OK"
+2025-06-20 16:36:08,221 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:36:08,289 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:36:08,355 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:36:08,431 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:39:20,158 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:44:20 IST)" (scheduled at 2025-06-20 16:39:20.151587+05:30)
+2025-06-20 16:39:20,159 - INFO - 
+==================================================
+Email check at 2025-06-20 16:39:20.159756+05:30 IST (hour: 16)
+==================================================
+2025-06-20 16:39:20,732 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 16:39:20,854 - INFO - Found 3 users
+2025-06-20 16:39:20,938 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 16:39:20,942 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 16:39:21,003 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 16:39:21,007 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 16:39:21,072 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:39:21,078 - INFO - Skipping hello@gmail.com - email already queued/in progress
+2025-06-20 16:39:21,082 - INFO - Total emails queued: 0
+2025-06-20 16:39:21,086 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:44:20 IST)" executed successfully
+2025-06-20 16:44:20,154 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:49:20 IST)" (scheduled at 2025-06-20 16:44:20.151587+05:30)
+2025-06-20 16:44:20,156 - INFO - 
+==================================================
+Email check at 2025-06-20 16:44:20.155871+05:30 IST (hour: 16)
+==================================================
+2025-06-20 16:44:20,666 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 16:44:20,671 - INFO - Found 3 users
+2025-06-20 16:44:20,739 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 16:44:20,743 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 16:44:20,797 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 16:44:20,799 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 16:44:20,856 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:44:20,860 - INFO - Skipping hello@gmail.com - email already queued/in progress
+2025-06-20 16:44:20,862 - INFO - Total emails queued: 0
+2025-06-20 16:44:20,863 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:49:20 IST)" executed successfully
+2025-06-20 16:48:56,219 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:48:56,297 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:48:56,376 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:48:56,479 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:49:36,267 - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-06-20 16:49:36,269 - INFO - Added job "check_and_send_emails" to job store "default"
+2025-06-20 16:49:36,270 - INFO - Scheduler started
+2025-06-20 16:49:36,274 - INFO - Email scheduler started.
+2025-06-20 16:49:36,274 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:54:36 IST)" (scheduled at 2025-06-20 16:49:36.262768+05:30)
+2025-06-20 16:49:36,276 - INFO - 
+==================================================
+Email check at 2025-06-20 16:49:36.276031+05:30 IST (hour: 16)
+==================================================
+2025-06-20 16:49:37,299 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 16:49:37,312 - INFO - Found 3 users
+2025-06-20 16:49:37,428 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 16:49:37,432 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 16:49:37,498 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 16:49:37,501 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 16:49:37,558 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:49:37,561 - INFO - Skipping hello@gmail.com - email already queued/in progress
+2025-06-20 16:49:37,563 - INFO - Total emails queued: 0
+2025-06-20 16:49:37,564 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:54:36 IST)" executed successfully
+2025-06-20 16:53:48,496 - INFO - HTTP Request: GET https://accounts.google.com/.well-known/openid-configuration "HTTP/1.1 200 OK"
+2025-06-20 16:53:54,562 - INFO - HTTP Request: POST https://oauth2.googleapis.com/token "HTTP/1.1 200 OK"
+2025-06-20 16:53:55,549 - INFO - HTTP Request: GET https://www.googleapis.com/oauth2/v3/certs "HTTP/1.1 200 OK"
+2025-06-20 16:53:56,104 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:53:56,211 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:53:56,282 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:53:56,372 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:53:56,422 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A&email=eq.dreamers2k22%40gmail.com "HTTP/2 200 OK"
+2025-06-20 16:53:56,518 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/customers?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:54:36,265 - INFO - Running job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:59:36 IST)" (scheduled at 2025-06-20 16:54:36.262768+05:30)
+2025-06-20 16:54:36,266 - INFO - 
+==================================================
+Email check at 2025-06-20 16:54:36.266540+05:30 IST (hour: 16)
+==================================================
+2025-06-20 16:54:36,369 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/users?select=%2A%2Ccustomers%28%2A%29 "HTTP/2 200 OK"
+2025-06-20 16:54:36,375 - INFO - Found 3 users
+2025-06-20 16:54:36,437 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.c07d20f5-73f3-4606-9e84-98fa86b422a4 "HTTP/2 200 OK"
+2025-06-20 16:54:36,438 - INFO - Already sent to manojthupakula06080@gmail.com today (2025-06-20)
+2025-06-20 16:54:36,531 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.ecba7ac9-f01f-406b-ba2e-a0ca98807714 "HTTP/2 200 OK"
+2025-06-20 16:54:36,533 - INFO - Already sent to jaiganesh.ramaswamy@cprime.com today (2025-06-20)
+2025-06-20 16:54:36,583 - INFO - HTTP Request: GET https://ygmoyaagiwoxaplmdmhr.supabase.co/rest/v1/email_tracker?select=%2A&user_id=eq.7d386d4b-be2c-4460-af5f-72f1d8f12341 "HTTP/2 200 OK"
+2025-06-20 16:54:36,585 - INFO - Skipping hello@gmail.com - email already queued/in progress
+2025-06-20 16:54:36,586 - INFO - Total emails queued: 0
+2025-06-20 16:54:36,587 - INFO - Job "check_and_send_emails (trigger: interval[0:05:00], next run at: 2025-06-20 16:59:36 IST)" executed successfully
