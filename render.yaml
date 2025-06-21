@@ -4,38 +4,46 @@ services:
     name: fastapi-app
     env: python
     pythonVersion: "3.11"
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+    startCommand: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:$PORT
     plan: free
     envVars:
       - key: REDIS_URL
         value: redis://redis-service:6379
       - key: GOOGLE_CLIENT_ID
-        fromGroup: secrets
+        fromGroup: google-oauth
       - key: GOOGLE_CLIENT_SECRET
-        fromGroup: secrets
+        fromGroup: google-oauth
       - key: SUPABASE_URL
-        fromGroup: secrets
+        fromGroup: supabase
       - key: SUPABASE_KEY
-        fromGroup: secrets
-      - key: FLASK_SECRET_KEY
-        fromGroup: secrets
+        fromGroup: supabase
+      - key: SECRET_KEY  # Renamed from FLASK_SECRET_KEY for consistency
+        fromGroup: auth
+      - key: ENVIRONMENT
+        value: production
 
   # Worker service for Dramatiq
   - type: worker
     name: dramatiq-worker
     env: python
     pythonVersion: "3.11"
-    buildCommand: pip install -r requirements.txt
-    startCommand: python -m dramatiq jobs --watch .
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+    startCommand: python -m dramatiq jobs --watch . --threads 4
     plan: free
     envVars:
       - key: REDIS_URL
         value: redis://redis-service:6379
       - key: SUPABASE_URL
-        fromGroup: secrets
+        fromGroup: supabase
       - key: SUPABASE_KEY
-        fromGroup: secrets
+        fromGroup: supabase
+      - key: ENVIRONMENT
+        value: production
 
   # Redis service
   - type: redis
