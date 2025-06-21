@@ -1,24 +1,26 @@
 services:
+  # Main web service
   - type: web
     name: fastapi-app
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: python -m uvicorn app.main:app --host 0.0.0.0 --port 5000
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port 5000
     plan: free
     envVars:
       - key: REDIS_URL
-        value: redis://redis-service:6379
-    
-  - type: worker
-    name: dramatiq-worker
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: python -m dramatiq app.tasks --watch app
-    plan: free
-    envVars:
-      - key: REDIS_URL
-        value: redis://redis-service:6379
+        value: redis://redis:6379
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: FLASK_SECRET_KEY
+        sync: false
 
+  # Worker service (single instance)
   - type: worker
     name: dramatiq-worker
     env: python
@@ -27,10 +29,16 @@ services:
     plan: free
     envVars:
       - key: REDIS_URL
-        value: redis://redis-service:6379
+        value: redis://redis:6379
+      # Include other env vars that workers need
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
 
-  - type: private-service
-    name: redis-service
-    env: docker
-    dockerfilePath: redis/Dockerfile
+  # Redis service (using Render's Redis blueprint)
+  - type: redis
+    name: redis
     plan: free
+    ipAllowList:
+      - 0.0.0.0/0
