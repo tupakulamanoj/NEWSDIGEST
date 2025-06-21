@@ -138,7 +138,7 @@ async def dashboard(request: Request):
                 "send_hour_start": defaults['send_hour_start'],
                 "send_hour_end": defaults['send_hour_end'],
                 "is_subscribed": is_subscribed,
-                "url_for_submit": defaults['submit_url']  # Add this line
+                "url_for_submit": defaults['submit_url']
             }
         )
     except Exception as e:
@@ -169,11 +169,10 @@ async def submit(request: Request):
         save_user(email, name, news_email)
         save_customer_data(news_email, email, companies, frequency, send_hour_start, send_hour_end)
         
-        # Return a string URL for redirect
         return JSONResponse({
             'success': True,
             'message': 'Preferences saved successfully!',
-            'redirect': '/dashboard'  # Simple string path
+            'redirect': '/dashboard'
         })
     except Exception as e:
         logger.error(f"Error in submit route: {str(e)}")
@@ -182,10 +181,18 @@ async def submit(request: Request):
             status_code=500
         )
 
+# Add health check endpoint for Render
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
+
 if __name__ == "__main__":
     import uvicorn
     # Start the scheduler
     start_scheduler()
     
+    # Get port from environment or default to 5000 for local development
+    port = int(os.getenv("PORT", 5000))
+    
     # Start the FastAPI app
-    uvicorn.run(app, host="0.0.0.0", port=5000)
+    uvicorn.run(app, host="0.0.0.0", port=port)

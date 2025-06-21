@@ -1,66 +1,43 @@
 services:
+  # Web service for FastAPI
   - type: web
     name: fastapi-app
     env: python
-    buildCommand: |
-      pip install -r requirements.txt
-    startCommand: python -m uvicorn main:app --host 0.0.0.0 --port 5000
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn main:app --host 0.0.0.0 --port $PORT
     plan: free
     envVars:
       - key: REDIS_URL
-        value: redis://redis:6379
+        value: redis://redis-service:6379
       - key: GOOGLE_CLIENT_ID
-        value: ${{ secrets.GOOGLE_CLIENT_ID }}
+        fromGroup: secrets
       - key: GOOGLE_CLIENT_SECRET
-        value: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        fromGroup: secrets
       - key: SUPABASE_URL
-        value: ${{ secrets.SUPABASE_URL }}
+        fromGroup: secrets
       - key: SUPABASE_KEY
-        value: ${{ secrets.SUPABASE_KEY }}
+        fromGroup: secrets
       - key: FLASK_SECRET_KEY
-        value: ${{ secrets.FLASK_SECRET_KEY }}
-    
-  # Explicitly configure web service to use uvicorn
-    web:
-      type: web
-      name: fastapi-app
-      buildCommand: |
-        pip install -r requirements.txt
-      startCommand: python -m uvicorn main:app --host 0.0.0.0 --port 5000
-      plan: free
-      envVars:
-        - key: REDIS_URL
-          value: redis://redis:6379
-        - key: GOOGLE_CLIENT_ID
-          value: ${{ secrets.GOOGLE_CLIENT_ID }}
-        - key: GOOGLE_CLIENT_SECRET
-          value: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-        - key: SUPABASE_URL
-          value: ${{ secrets.SUPABASE_URL }}
-        - key: SUPABASE_KEY
-          value: ${{ secrets.SUPABASE_KEY }}
-        - key: FLASK_SECRET_KEY
-          value: ${{ secrets.FLASK_SECRET_KEY }}
+        fromGroup: secrets
 
-  # Worker service
+  # Worker service for Dramatiq
   - type: worker
     name: dramatiq-worker
     env: python
-    buildCommand: |
-      pip install -r requirements.txt
-    startCommand: python -m dramatiq app.tasks --watch app
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m dramatiq jobs --watch .
     plan: free
     envVars:
       - key: REDIS_URL
-        value: redis://redis:6379
+        value: redis://redis-service:6379
       - key: SUPABASE_URL
-        value: ${{ secrets.SUPABASE_URL }}
+        fromGroup: secrets
       - key: SUPABASE_KEY
-        value: ${{ secrets.SUPABASE_KEY }}
+        fromGroup: secrets
 
   # Redis service
   - type: redis
-    name: redis
+    name: redis-service
     plan: free
     ipAllowList:
       - 0.0.0.0/0
