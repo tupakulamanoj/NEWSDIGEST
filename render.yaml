@@ -17,7 +17,7 @@ services:
       - key: ENVIRONMENT
         value: production
       - key: RUN_SCHEDULER
-        value: "true"   # Scheduler will run in this single worker
+        value: "true"
 
   - type: worker
     name: dramatiq-worker
