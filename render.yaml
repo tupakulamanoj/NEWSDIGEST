@@ -11,16 +11,9 @@ services:
     envVars:
       - key: REDIS_URL
         value: redis://redis-service:6379
-      - key: GOOGLE_CLIENT_ID
-        fromGroup: google-oauth
-      - key: GOOGLE_CLIENT_SECRET
-        fromGroup: google-oauth
-      - key: SUPABASE_URL
-        fromGroup: supabase
-      - key: SUPABASE_KEY
-        fromGroup: supabase
-      - key: SECRET_KEY
-        fromGroup: auth
+      - fromGroup: google-oauth
+      - fromGroup: supabase
+      - fromGroup: auth
       - key: ENVIRONMENT
         value: production
 
@@ -36,10 +29,7 @@ services:
     envVars:
       - key: REDIS_URL
         value: redis://redis-service:6379
-      - key: SUPABASE_URL
-        fromGroup: supabase
-      - key: SUPABASE_KEY
-        fromGroup: supabase
+      - fromGroup: supabase
       - key: ENVIRONMENT
         value: production
 
@@ -47,6 +37,6 @@ services:
   - type: redis
     name: redis-service
     plan: free
-    ipAllowList:  # 👈 Required on free Redis plan
+    ipAllowList:
       - source: 0.0.0.0/0
-        description: allow all
+        description: Allow all
