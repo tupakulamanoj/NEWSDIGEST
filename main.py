@@ -13,6 +13,7 @@ import logging
 import os
 from dotenv import load_dotenv
 
+from starlette.middleware.sessions import SessionMiddleware
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
