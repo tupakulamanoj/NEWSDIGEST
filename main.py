@@ -192,8 +192,8 @@ async def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-    # Start the scheduler
-    start_scheduler()
+    if os.getenv("RUN_SCHEDULER") == "true":
+        start_scheduler()
     
     # Get port from environment or default to 5000 for local development
     port = int(os.getenv("PORT", 5000))
