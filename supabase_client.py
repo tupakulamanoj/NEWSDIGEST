@@ -3,7 +3,9 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 load_dotenv()
-
+# Add this at the top of your supabase_client.py
+print(f"Supabase URL: {url}")  # Debugging - remove after verification
+print(f"Supabase Key: {key[:5]}...{key[-5:]}")  # Show partial key for security
 # Initialize Supabase client
 url = os.getenv("SUPABASE_URL")
 key = os.getenv("SUPABASE_KEY")
