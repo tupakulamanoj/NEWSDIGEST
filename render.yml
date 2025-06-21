@@ -8,6 +8,16 @@ services:
     envVars:
       - key: REDIS_URL
         value: redis://redis-service:6379
+    
+  - type: worker
+    name: dramatiq-worker
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m dramatiq app.tasks --watch app
+    plan: free
+    envVars:
+      - key: REDIS_URL
+        value: redis://redis-service:6379
 
   - type: worker
     name: dramatiq-worker
