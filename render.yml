@@ -19,6 +19,28 @@ services:
         value: ${{ secrets.SUPABASE_KEY }}
       - key: FLASK_SECRET_KEY
         value: ${{ secrets.FLASK_SECRET_KEY }}
+    
+  # Explicitly configure web service to use uvicorn
+    web:
+      type: web
+      name: fastapi-app
+      buildCommand: |
+        pip install -r requirements.txt
+      startCommand: python -m uvicorn main:app --host 0.0.0.0 --port 5000
+      plan: free
+      envVars:
+        - key: REDIS_URL
+          value: redis://redis:6379
+        - key: GOOGLE_CLIENT_ID
+          value: ${{ secrets.GOOGLE_CLIENT_ID }}
+        - key: GOOGLE_CLIENT_SECRET
+          value: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        - key: SUPABASE_URL
+          value: ${{ secrets.SUPABASE_URL }}
+        - key: SUPABASE_KEY
+          value: ${{ secrets.SUPABASE_KEY }}
+        - key: FLASK_SECRET_KEY
+          value: ${{ secrets.FLASK_SECRET_KEY }}
 
   # Worker service
   - type: worker
