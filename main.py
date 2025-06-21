@@ -20,13 +20,21 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 app = FastAPI()
-app.include_router(auth_router, prefix="/auth")
+app.include_router(auth_router, prefix="/auth")app.add_middleware(
+    SessionMiddleware,
+    secret_key=os.getenv("SESSION_SECRET_KEY", os.urandom(32).hex()),
+    session_cookie="session_cookie",
+    https_only=True,  # Requires HTTPS
+    same_site="lax",  # CSRF protection
+    max_age=3600,     # 1 hour expiration
+)
 configure_oauth(app)
 
 from dramatiq.brokers.redis import RedisBroker
 from dramatiq.results import Results
 from dramatiq.results.backends import RedisBackend
 import dramatiq
+
 
 redis_url = os.getenv('REDIS_URL', 'redis://redis-service:6379')
 broker = RedisBroker(url=redis_url)
