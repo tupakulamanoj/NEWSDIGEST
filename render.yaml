@@ -3,7 +3,6 @@ services:
   - type: web
     name: fastapi-app
     env: python
-    pythonVersion: "3.11"
     buildCommand: |
       pip install --upgrade pip
       pip install -r requirements.txt
@@ -29,7 +28,6 @@ services:
   - type: worker
     name: dramatiq-worker
     env: python
-    pythonVersion: "3.11"
     buildCommand: |
       pip install --upgrade pip
       pip install -r requirements.txt
@@ -49,5 +47,4 @@ services:
   - type: redis
     name: redis-service
     plan: free
-    ipAllowList:
-      - 0.0.0.0/0
+    
