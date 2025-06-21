@@ -1,5 +1,4 @@
 services:
-  # Web service for FastAPI
   - type: web
     name: fastapi-app
     env: python
@@ -7,7 +6,7 @@ services:
     buildCommand: |
       pip install --upgrade pip
       pip install -r requirements.txt
-    startCommand: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
+    startCommand: gunicorn -w 1 -k uvicorn.workers.UvicornWorker main:app
     plan: free
     envVars:
       - key: REDIS_URL
@@ -17,8 +16,9 @@ services:
       - fromGroup: auth
       - key: ENVIRONMENT
         value: production
+      - key: RUN_SCHEDULER
+        value: "true"   # Scheduler will run in this single worker
 
-  # Worker service for Dramatiq
   - type: worker
     name: dramatiq-worker
     env: python
@@ -35,7 +35,6 @@ services:
       - key: ENVIRONMENT
         value: production
 
-  # Redis service
   - type: redis
     name: redis-service
     plan: free
