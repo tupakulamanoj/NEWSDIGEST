@@ -20,7 +20,8 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 app = FastAPI()
-app.include_router(auth_router, prefix="/auth")app.add_middleware(
+app.include_router(auth_router, prefix="/auth")
+app.add_middleware(
     SessionMiddleware,
     secret_key=os.getenv("SESSION_SECRET_KEY", os.urandom(32).hex()),
     session_cookie="session_cookie",
