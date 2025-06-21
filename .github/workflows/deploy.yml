@@ -1,0 +1,44 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Deploy to Render
+        uses: renderinc/render-github-action@v1
+        with:
+          environment: production
+          token: ${{ secrets.RENDER_TOKEN }}
+          
+      - name: Configure environment variables
+        run: |
+          # Set up environment variables in Render
+          curl -X POST https://api.render.com/v1/services/$SERVICE_ID/config \ 
+            -H "Authorization: Bearer ${{ secrets.RENDER_TOKEN }}" \ 
+            -H "Content-Type: application/json" \ 
+            -d '{
+              "env": {
+                "GOOGLE_CLIENT_ID": "${{ secrets.GOOGLE_CLIENT_ID }}",
+                "GOOGLE_CLIENT_SECRET": "${{ secrets.GOOGLE_CLIENT_SECRET }}",
+                "SUPABASE_URL": "${{ secrets.SUPABASE_URL }}",
+                "SUPABASE_KEY": "${{ secrets.SUPABASE_KEY }}",
+                "FLASK_SECRET_KEY": "${{ secrets.FLASK_SECRET_KEY }}",
+                "REDIS_URL": "redis://redis-service:6379"
+              }
+            }'

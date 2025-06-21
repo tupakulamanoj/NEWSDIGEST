@@ -11,9 +11,6 @@ from dramatiq.results import Results
 from dramatiq.results.backends import RedisBackend
 import logging
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
