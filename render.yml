@@ -4,23 +4,23 @@ services:
     name: fastapi-app
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn wsgi:app
+    startCommand: gunicorn app:app  # Update this to point to your actual application
     plan: free
     envVars:
       - key: REDIS_URL
         value: redis://redis:6379
       - key: GOOGLE_CLIENT_ID
-        sync: false
+        value: ${{ secrets.GOOGLE_CLIENT_ID }}
       - key: GOOGLE_CLIENT_SECRET
-        sync: false
+        value: ${{ secrets.GOOGLE_CLIENT_SECRET }}
       - key: SUPABASE_URL
-        sync: false
+        value: ${{ secrets.SUPABASE_URL }}
       - key: SUPABASE_KEY
-        sync: false
+        value: ${{ secrets.SUPABASE_KEY }}
       - key: FLASK_SECRET_KEY
-        sync: false
+        value: ${{ secrets.FLASK_SECRET_KEY }}
 
-  # Worker service (single instance)
+  # Worker service
   - type: worker
     name: dramatiq-worker
     env: python
@@ -30,13 +30,12 @@ services:
     envVars:
       - key: REDIS_URL
         value: redis://redis:6379
-      # Include other env vars that workers need
       - key: SUPABASE_URL
-        sync: false
+        value: ${{ secrets.SUPABASE_URL }}
       - key: SUPABASE_KEY
-        sync: false
+        value: ${{ secrets.SUPABASE_KEY }}
 
-  # Redis service (using Render's Redis blueprint)
+  # Redis service
   - type: redis
     name: redis
     plan: free
