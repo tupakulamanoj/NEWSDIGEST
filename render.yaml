@@ -19,7 +19,7 @@ services:
         fromGroup: supabase
       - key: SUPABASE_KEY
         fromGroup: supabase
-      - key: SECRET_KEY  # Renamed from FLASK_SECRET_KEY for consistency
+      - key: SECRET_KEY
         fromGroup: auth
       - key: ENVIRONMENT
         value: production
@@ -47,4 +47,6 @@ services:
   - type: redis
     name: redis-service
     plan: free
-    
+    ipAllowList:  # 👈 Required on free Redis plan
+      - source: 0.0.0.0/0
+        description: allow all
