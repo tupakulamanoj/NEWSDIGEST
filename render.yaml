@@ -1,18 +1,20 @@
+
 # services:
 #   - type: web
 #     name: fastapi-app
 #     env: python
+#     plan: free
 #     pythonVersion: "3.11"
 #     buildCommand: |
 #       pip install --upgrade pip
 #       pip install --upgrade -r requirements.txt
 #     startCommand: gunicorn --preload -w 1 -k uvicorn.workers.UvicornWorker main:app
-#     plan: free
 #     envVars:
 #       - key: REDIS_URL
-#       - fromGroup: google-oauth
-#       - fromGroup: supabase
-#       - fromGroup: auth
+#         fromGroup: redis-connection     # ✅ You will create this group in Render
+#       - fromGroup: google-oauth         # ✅ Your Google SSO secrets
+#       - fromGroup: supabase             # ✅ Your Supabase credentials
+#       - fromGroup: auth                 # ✅ Optional additional auth secrets
 #       - key: ENVIRONMENT
 #         value: production
 #       - key: RUN_SCHEDULER
@@ -21,22 +23,20 @@
 #   - type: worker
 #     name: dramatiq-worker
 #     env: python
+#     plan: free
 #     pythonVersion: "3.11"
 #     buildCommand: |
 #       pip install --upgrade pip
 #       pip install --upgrade -r requirements.txt
 #     startCommand: python -m dramatiq jobs --watch . --threads 4
-#     plan: free
 #     envVars:
 #       - key: REDIS_URL
-#         value: redis://redis-service:6379
+#         fromGroup: redis-connection     # ✅ Same Redis URL for Dramatiq
 #       - fromGroup: supabase
 #       - key: ENVIRONMENT
 #         value: production
 
-#   - type: redis
-#     name: redis-service
-#     plan: free
+
 services:
   - type: web
     name: fastapi-app
@@ -49,10 +49,9 @@ services:
     startCommand: gunicorn --preload -w 1 -k uvicorn.workers.UvicornWorker main:app
     envVars:
       - key: REDIS_URL
-        fromGroup: redis-connection     # ✅ You will create this group in Render
-      - fromGroup: google-oauth         # ✅ Your Google SSO secrets
-      - fromGroup: supabase             # ✅ Your Supabase credentials
-      - fromGroup: auth                 # ✅ Optional additional auth secrets
+      - fromGroup: supabase
+      - fromGroup: google-oauth
+      - fromGroup: auth
       - key: ENVIRONMENT
         value: production
       - key: RUN_SCHEDULER
@@ -69,7 +68,7 @@ services:
     startCommand: python -m dramatiq jobs --watch . --threads 4
     envVars:
       - key: REDIS_URL
-        fromGroup: redis-connection     # ✅ Same Redis URL for Dramatiq
       - fromGroup: supabase
+      - fromGroup: auth
       - key: ENVIRONMENT
         value: production
