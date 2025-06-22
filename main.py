@@ -38,7 +38,7 @@ from dramatiq.results.backends import RedisBackend
 import dramatiq
 
 
-redis_url = os.getenv('REDIS_URL', 'redis://redis-service:6379')
+redis_url = os.getenv('REDIS_URL')
 broker = RedisBroker(url=redis_url)
 broker.add_middleware(Results(backend=RedisBackend(url=redis_url)))
 dramatiq.set_broker(broker)
