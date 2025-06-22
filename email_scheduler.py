@@ -1,4 +1,3 @@
-
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime, timedelta
 from pytz import timezone, utc
@@ -9,6 +8,29 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 IST = timezone("Asia/Kolkata")
+
+def get_interval_from_frequency(frequency):
+    """Convert frequency string to days interval"""
+    frequency = str(frequency).lower().strip() if frequency else 'week'
+    
+    frequency_map = {
+        'day': 1,
+        'daily': 1,
+        'week': 7,
+        'weekly': 7,
+        'month': 30,  # Approximate
+        'monthly': 30,
+        'year': 365,  # Approximate
+        'yearly': 365,
+    }
+    
+    try:
+        # Try to convert directly if it's a numeric string
+        return int(frequency)
+    except ValueError:
+        # Use the mapped value or default to weekly
+        return frequency_map.get(frequency, 7)
+
 def check_and_send_emails():
     try:
         now_utc = datetime.utcnow().replace(tzinfo=utc)
@@ -33,7 +55,7 @@ def check_and_send_emails():
                 customer = user['customers'][0]
                 email = user['News_Email']
                 user_id = user['id']
-                interval = customer.get('frequency', 'week')
+                interval = get_interval_from_frequency(customer.get('frequency', 'week'))
                 
                 # Check last sent email info with additional status check
                 tracker = supabase.table("email_tracker").select("*").eq("user_id", user_id).execute()
@@ -43,7 +65,6 @@ def check_and_send_emails():
                 
                 if last_sent_data is None:
                     # No entry in tracker - first time sending to this user
-                    # Create a temporary tracker entry to prevent duplicates
                     temp_entry = {
                         "user_id": user_id,
                         "last_sent": now_utc.isoformat(),
@@ -70,17 +91,17 @@ def check_and_send_emails():
                     last_sent_time = datetime.fromisoformat(last_sent_data["last_sent"]).replace(tzinfo=utc).astimezone(IST)
                     last_sent_date = last_sent_time.date()
                     
-                    # Check if already sent today (regardless of time)
+                    # Check if already sent today
                     if last_sent_date == current_date_ist:
                         logger.info(f"Already sent to {email} today ({last_sent_date})")
                         should_send = False
                     
                     # Check interval requirement
                     elif interval > 0 and (current_date_ist - last_sent_date).days < interval:
-                        logger.info(f"Interval not yet passed for {email} - last sent {last_sent_date}, interval {interval} days")
+                        logger.info(f"Interval not yet passed for {email} - last sent {last_sent_date}, interval {interval} days (frequency: {customer.get('frequency', 'week')})")
                         should_send = False
                     
-                    # Safety check: prevent sending too frequently (within 5 minutes)
+                    # Safety check: prevent sending too frequently
                     elif (now_ist - last_sent_time) < timedelta(minutes=5):
                         logger.info(f"Recently sent to {email} at {last_sent_time}, skipping for safety")
                         should_send = False
@@ -107,6 +128,7 @@ def check_and_send_emails():
         
     except Exception as e:
         logger.error(f"Scheduler failure: {str(e)}")
+
 def start_scheduler():
     scheduler = BackgroundScheduler()
     scheduler.add_job(
