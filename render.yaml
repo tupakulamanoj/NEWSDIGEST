@@ -10,7 +10,6 @@ services:
     plan: free
     envVars:
       - key: REDIS_URL
-        value: redis://redis-service:6379
       - fromGroup: google-oauth
       - fromGroup: supabase
       - fromGroup: auth
