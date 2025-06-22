@@ -3,7 +3,7 @@ import dramatiq
 from openai import APIError
 from supabase_client import supabase
 from datetime import datetime, timedelta, timezone
-from email_utils import send_email
+
 import asyncio
 from tech_news_analyzer import EnhancedTechNewsAnalyzer
 import json
