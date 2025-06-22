@@ -127,7 +127,9 @@ def check_and_send_emails():
         logger.info(f"Total emails queued: {emails_queued}")
         
     except Exception as e:
+        import traceback
         logger.error(f"Scheduler failure: {str(e)}")
+        logger.error(traceback.format_exc())
 
 def start_scheduler():
     scheduler = BackgroundScheduler()
