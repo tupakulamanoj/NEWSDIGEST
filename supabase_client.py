@@ -223,7 +223,9 @@ def create_supabase_client():
     # For Supabase client, we still need the regular URL and key
     supabase_url = os.getenv("SUPABASE_URL")
     supabase_key = os.getenv("SUPABASE_KEY")
-    
+    print(f"SUPABASE_URL: {SUPABASE_URL}")
+    print(f"SUPABASE_KEY: {'set' if SUPABASE_KEY else 'missing'}")
+
     if not supabase_url or not supabase_key:
         raise ValueError("Supabase URL and Key must be provided in environment variables")
     
