@@ -35,8 +35,6 @@
 #       - fromGroup: supabase
 #       - key: ENVIRONMENT
 #         value: production
-
-
 services:
   - type: web
     name: fastapi-app
@@ -47,7 +45,7 @@ services:
       pip install --upgrade -r requirements.txt
     startCommand: gunicorn --preload -w 1 -k uvicorn.workers.UvicornWorker main:app
     envVars:
-      - key: REDIS_URL
+      - fromGroup: redis-connection
       - fromGroup: supabase
       - fromGroup: google-oauth
       - fromGroup: auth
@@ -65,7 +63,7 @@ services:
       pip install --upgrade -r requirements.txt
     startCommand: python -m dramatiq jobs --watch . --threads 4
     envVars:
-      - key: REDIS_URL
+      - fromGroup: redis-connection
       - fromGroup: supabase
       - fromGroup: auth
       - key: ENVIRONMENT
