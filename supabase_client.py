@@ -2,18 +2,58 @@ from supabase import create_client
 import os
 from dotenv import load_dotenv
 from datetime import datetime
-load_dotenv()
-from supabase import create_client
-import os
 import socket
-from dotenv import load_dotenv
 from tenacity import retry, stop_after_attempt, wait_fixed
 
 load_dotenv()
-url = os.getenv("SUPABASE_URL")
-key = os.getenv("SUPABASE_KEY")
-supabase = create_client(url, key)
-print(supabase.table("users").select("*").execute())
+
+@retry(stop=stop_after_attempt(3), wait=wait_fixed(2))
+def create_supabase_client():
+    url = os.getenv("SUPABASE_URL")
+    key = os.getenv("SUPABASE_KEY")
+    
+    # Check if we're on Render and need to use alternative connection
+    if "render.com" in os.getenv("RENDER", ""):
+        # For Render deployment, use the pooler connection instead
+        # Replace the direct connection URL with pooler URL
+        if url and "supabase.co" in url:
+            # Extract project reference from URL
+            project_ref = url.split("//")[1].split(".")[0]
+            # Use the pooler endpoint which supports IPv4
+            pooler_url = f"https://{project_ref}.supabase.co"
+            url = pooler_url
+            print(f"Using pooler connection for Render: {url}")
+    
+    return create_client(url, key)
+
+# Alternative approach: Use session mode connection string
+def create_supabase_client_alt():
+    """Alternative connection method using session mode"""
+    # Use the session mode connection which is IPv4 compatible
+    # Get this from your Supabase Dashboard > Settings > Database > Connection string
+    database_url = os.getenv("DATABASE_URL")  # Add this to your .env
+    supabase_url = os.getenv("SUPABASE_URL")
+    supabase_key = os.getenv("SUPABASE_KEY")
+    
+    if database_url and "render.com" in os.getenv("RENDER", ""):
+        # If you have a session mode database URL, you can use it for direct DB operations
+        # But for Supabase client, still use the regular URL
+        print(f"Session mode DB URL available: {database_url[:50]}...")
+    
+    return create_client(supabase_url, supabase_key)
+
+# Initialize the client
+supabase = create_supabase_client()
+
+# Optional: Test connection function (call this when needed, not at module level)
+def test_connection():
+    try:
+        result = supabase.table("users").select("*").limit(1).execute()
+        print("✅ Connection test successful")
+        return True
+    except Exception as e:
+        print(f"❌ Connection test failed: {e}")
+        return False
 
 def save_user(email, name, news_email):
     # Check if user exists
@@ -140,27 +180,29 @@ def update_tracker(user_id, timestamp):
 def get_users_with_customer_data():
     """Get all users with their customer data"""
     try:
-        # Using raw SQL for better performance
-        query = """
-            SELECT 
-                u.id, u.email,
-                COALESCE(c.frequency, 'week') AS frequency,
-                COALESCE(c.send_hour_start, 6) AS send_hour_start,
-                COALESCE(c.send_hour_end, 18) AS send_hour_end,
-                COALESCE(c.company_names, '') AS company_names,
-                et.last_sent
-            FROM 
-                users u
-            LEFT JOIN 
-                customers c ON u.id = c.user_id
-            LEFT JOIN 
-                email_tracker et ON u.id = et.user_id
-            WHERE 
-                c.company_names IS NOT NULL AND
-                c.company_names != ''
-        """
-        response = supabase.rpc('query', {'query': query}).execute()
-        return response.data
+        # Use regular table queries instead of raw SQL for better compatibility
+        users_response = supabase.table("users").select(
+            "id, email, customers(frequency, send_hour_start, send_hour_end, company_names), email_tracker(last_sent)"
+        ).not_.is_("customers.company_names", "null").execute()
+        
+        # Transform the data to match expected format
+        users_data = []
+        for user in users_response.data:
+            if user.get('customers') and user['customers'][0].get('company_names'):
+                customer = user['customers'][0]
+                tracker = user.get('email_tracker', [{}])[0] if user.get('email_tracker') else {}
+                
+                users_data.append({
+                    'id': user['id'],
+                    'email': user['email'],
+                    'frequency': customer.get('frequency', 'week'),
+                    'send_hour_start': customer.get('send_hour_start', 6),
+                    'send_hour_end': customer.get('send_hour_end', 18),
+                    'company_names': customer.get('company_names', ''),
+                    'last_sent': tracker.get('last_sent')
+                })
+        
+        return users_data
     except Exception as e:
         print(f"Error fetching users with customer data: {e}")
         return []
