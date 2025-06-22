@@ -1,5 +1,6 @@
 from supabase import create_client
 import os
+from dotenv import load_dotenv
 from datetime import datetime
 load_dotenv()
 url = os.getenv("SUPABASE_URL")
