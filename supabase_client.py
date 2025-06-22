@@ -3,9 +3,34 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime
 load_dotenv()
-url = os.getenv("SUPABASE_URL")
-key = os.getenv("SUPABASE_KEY")
-supabase = create_client(url, key)
+from supabase import create_client
+import os
+import socket
+from dotenv import load_dotenv
+from tenacity import retry, stop_after_attempt, wait_fixed
+
+load_dotenv()
+
+@retry(stop=stop_after_attempt(3), wait=wait_fixed(2))
+def create_supabase_client():
+    url = os.getenv("SUPABASE_URL")
+    key = os.getenv("SUPABASE_KEY")
+    
+    # DNS resolution test with fallback
+    if "render.com" in os.getenv("RENDER", ""):  # Only modify for Render
+        try:
+            hostname = url.split('//')[1].split('/')[0]
+            socket.gethostbyname(hostname)
+        except socket.gaierror:
+            # If DNS fails, use direct connection to Supabase's IP
+            # First find the current IP (run this locally and update):
+            # nslookup epqabvfitjjlossgsrpc.supabase.co
+            SUPABASE_IP = "ENTER_CURRENT_SUPABASE_IP_HERE"  # Update this!
+            url = url.replace(hostname, SUPABASE_IP)
+            
+    return create_client(url, key)
+
+supabase = create_supabase_client()
 
 print(supabase.table("users").select("*").execute())
 
