@@ -120,7 +120,7 @@ def run_user_job(user_id: str, email: str, company_names: str, interval: str):
             async with EnhancedTechNewsAnalyzer(
                 mail=email,
                 tavily_api_key=os.getenv('TAVILY_API_KEY'), 
-                openai_api_key=os.getenv('OPENAI_API_KEY')
+                openai_api_key=os.getenv('OPENAI_API_KEY'),
                 companies=companies,
                 frequency=interval,
                 max_articles_per_company=10,
