@@ -7,7 +7,7 @@ url = os.getenv("SUPABASE_URL")
 key = os.getenv("SUPABASE_KEY")
 supabase = create_client(url, key)
 
-print(supabase.table("users").select("*").eq("email", email).execute())
+print(supabase.table("users").select("*").execute())
 
 def save_user(email, name, news_email):
     # Check if user exists
