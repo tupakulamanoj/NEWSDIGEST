@@ -12,6 +12,7 @@ print(f"Supabase Key: {key[:5]}...{key[-5:]}")  # Show partial key for security
 
 
 supabase = create_client(url, key)
+print(supabase)
 
 def save_user(email, name, news_email):
     # Check if user exists
