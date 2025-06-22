@@ -1,139 +1,112 @@
+
+
+
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import RedirectResponse
 from authlib.integrations.starlette_client import OAuth
 from starlette.config import Config
+from starlette.middleware.sessions import SessionMiddleware
 import os
 import uuid
-import logging
-from urllib.parse import urlencode
-from supabase_client import get_customer_data
 
 auth_router = APIRouter()
 oauth = OAuth()
-logger = logging.getLogger(__name__)
 
 def configure_oauth(app):
-    config = Config('.env')
+    config = Config('.env')  # Load environment variables
     oauth.register(
         name='google',
         client_id=os.getenv("GOOGLE_CLIENT_ID"),
         client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
         server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
-        client_kwargs={
-            'scope': 'openid email profile',
-            'prompt': 'select_account'  # Ensures users select account each time
-        }
+        client_kwargs={'scope': 'openid email profile'}
     )
+    app.add_middleware(SessionMiddleware, secret_key=os.getenv('FLASK_SECRET_KEY', 'supersecret'))
 
 @auth_router.get('/login')
 async def login(request: Request):
-    try:
-        redirect_uri = str(request.url_for('auth_callback'))
-        logger.info(f"Redirect URI: {redirect_uri}")
-        
-        # Generate secure state and nonce
-        state = uuid.uuid4().hex
-        nonce = uuid.uuid4().hex
-        
-        # Store in session with expiration
-        request.session.update({
-            'oauth_state': state,
-            'nonce': nonce,
-            'redirect_after_auth': str(request.query_params.get('next', '/'))
-        })
-        
-        # Additional parameters for security
-        auth_params = {
-            'access_type': 'offline',
-            'include_granted_scopes': 'true',
-            'response_type': 'code',
-            'state': state,
-            'nonce': nonce
-        }
-        
-        authorization_url = await oauth.google.authorize_redirect(
-            request, 
-            redirect_uri,
-            **auth_params
-        )
-        
-        return authorization_url
-        
-    except Exception as e:
-        logger.error(f"Login initialization failed: {e}")
-        raise HTTPException(500, "Login initialization failed")
+    # Debug: Print the redirect URI
+    redirect_uri = str(request.url_for('auth_callback'))
+    print(f"Redirect URI: {redirect_uri}")
+    
+    # Ensure the redirect URI matches exactly what's registered in Google Cloud Console
+    nonce = uuid.uuid4().hex
+    request.session['nonce'] = nonce
+    
+    # Add state parameter for additional security
+    state = uuid.uuid4().hex
+    request.session['oauth_state'] = state
+    
+    print(f"Starting OAuth flow with nonce: {nonce[:8]}... and state: {state[:8]}...")
+    
+    return await oauth.google.authorize_redirect(
+        request, 
+        redirect_uri, 
+        nonce=nonce,
+        state=state
+    )
 
 @auth_router.get('/auth/callback')
 async def auth_callback(request: Request):
     try:
-        # Verify state parameter first
+        # Debug: Print the callback URL and parameters
+        print(f"Callback URL: {request.url}")
+        print(f"Query params: {dict(request.query_params)}")
+        
+        # Validate state parameter
         received_state = request.query_params.get('state')
         session_state = request.session.pop('oauth_state', None)
+        if received_state != session_state:
+            print(f"State mismatch: received {received_state}, expected {session_state}")
+            raise HTTPException(status_code=400, detail="Invalid state parameter")
         
-        if not received_state or received_state != session_state:
-            logger.error(f"State mismatch: received {received_state}, expected {session_state}")
-            raise HTTPException(400, "Invalid state parameter")
-        
-        # Check for OAuth errors
+        # Check if there's an error in the callback
         if 'error' in request.query_params:
             error = request.query_params.get('error')
-            error_desc = request.query_params.get('error_description', 'No description')
-            logger.error(f"OAuth error: {error} - {error_desc}")
-            raise HTTPException(400, f"OAuth error: {error}")
+            error_description = request.query_params.get('error_description', '')
+            print(f"OAuth error: {error} - {error_description}")
+            raise HTTPException(status_code=400, detail=f"OAuth error: {error} - {error_description}")
         
-        # Exchange code for token
+        # Get the access token
         token = await oauth.google.authorize_access_token(request)
-        if not token:
-            raise HTTPException(400, "Failed to obtain access token")
-            
-        logger.info("Token received successfully")
+        print(f"Token received: {bool(token)}")
         
-        # Verify nonce
+        # Clean up nonce from session
         nonce = request.session.pop('nonce', None)
-        id_token = token.get('id_token')
-        if id_token and nonce:
+        
+        # Get user info from the token
+        user_info = token.get('userinfo')
+        if not user_info:
+            # If userinfo is not in token, try to parse the ID token
             try:
-                claims = await oauth.google.parse_id_token(request, token, nonce=nonce)
-            except Exception as e:
-                logger.error(f"ID token validation failed: {e}")
-                raise HTTPException(400, "Invalid ID token")
+                user_info = await oauth.google.parse_id_token(request, token)
+                print("User info from ID token")
+            except Exception as parse_error:
+                print(f"Error parsing ID token: {parse_error}")
+                # Fallback: make a request to userinfo endpoint
+                resp = await oauth.google.get('https://www.googleapis.com/oauth2/v2/userinfo', token=token)
+                user_info = resp.json()
+                print("User info from userinfo endpoint")
         
-        # Get user info
-        userinfo = token.get('userinfo')
-        if not userinfo:
-            # Fallback to userinfo endpoint
-            resp = await oauth.google.get('https://www.googleapis.com/oauth2/v3/userinfo', token=token)
-            userinfo = resp.json()
+        print(f"User info: {user_info}")
         
-        if not userinfo.get('email_verified', False):
-            raise HTTPException(400, "Email not verified by provider")
+        # Check if email is verified
+        if not user_info.get('email_verified') and not user_info.get('verified_email'):
+            raise HTTPException(status_code=400, detail="Email not verified by Google")
+            
+        # Store user info in session
+        request.session['email'] = user_info['email']
+        request.session['name'] = user_info.get('name')
+        request.session['user_id'] = user_info.get('id')
         
-        # Store user session
-        request.session.update({
-            'user': {
-                'id': userinfo.get('sub'),
-                'email': userinfo.get('email'),
-                'name': userinfo.get('name'),
-                'picture': userinfo.get('picture')
-            },
-            'authenticated': True
-        })
-        
-        # Get customer data if exists
-        try:
-            customer_data = get_customer_data(userinfo['email'])
-            if customer_data:
-                request.session['customer_data'] = customer_data
-        except Exception as e:
-            logger.error(f"Failed to fetch customer data: {e}")
-            # Continue without customer data
-        
-        # Redirect to original destination or dashboard
-        redirect_url = request.session.pop('redirect_after_auth', '/dashboard')
-        return RedirectResponse(url=redirect_url)
-        
+        print(f"User authenticated: {user_info['email']}")
+        return RedirectResponse(url=request.url_for('dashboard'))
+    
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Authentication failed: {e}", exc_info=True)
-        raise HTTPException(500, "Authentication process failed")
+        print(f"Unexpected error in auth callback: {e}")
+        print(f"Error type: {type(e)}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=400, detail=f"Authentication failed: {str(e)}")
