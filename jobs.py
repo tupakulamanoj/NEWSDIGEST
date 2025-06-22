@@ -3,6 +3,7 @@ import dramatiq
 from openai import APIError
 from supabase_client import supabase
 from datetime import datetime, timedelta, timezone
+from email_utils import send_email
 import asyncio
 from tech_news_analyzer import EnhancedTechNewsAnalyzer
 import json
@@ -14,6 +15,7 @@ import uuid
 import httpx
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
+load_dotenv()
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -117,8 +119,8 @@ def run_user_job(user_id: str, email: str, company_names: str, interval: str):
         async def run_analysis():
             async with EnhancedTechNewsAnalyzer(
                 mail=email,
-                tavily_api_key=os.getenv("TAVILY_API_KEY"),
-                openai_api_key=os.getenv("OPENAI_API_KEY"),
+                tavily_api_key=os.getenv('TAVILY_API_KEY'), 
+                openai_api_key=os.getenv('OPENAI_API_KEY')
                 companies=companies,
                 frequency=interval,
                 max_articles_per_company=10,
