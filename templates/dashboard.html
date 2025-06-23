@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -839,6 +839,1080 @@
             <div class="form-text">
               <i class="fas fa-clock"></i>
               How often you want to receive updates (recommended: Weekly)
+            </div>
+          </div>
+          
+          <div class="form-section">
+            <label class="form-label">Preferred Delivery Window</label>
+            <div class="time-range-grid">
+              <div class="time-input-group">
+                <label for="send_hour_start" class="time-label">Start Time</label>
+                <div class="input-group">
+                  <input 
+                    type="number" 
+                    id="send_hour_start" 
+                    name="send_hour_start" 
+                    class="form-control" 
+                    min="0" 
+                    max="23" 
+                    value="{{ send_hour_start|default('6') }}" 
+                    placeholder="6"
+                    required
+                  >
+                  <i class="fas fa-sun input-icon"></i>
+                </div>
+              </div>
+              <div class="time-input-group">
+                <label for="send_hour_end" class="time-label">End Time</label>
+                <div class="input-group">
+                  <input 
+                    type="number" 
+                    id="send_hour_end" 
+                    name="send_hour_end" 
+                    class="form-control" 
+                    min="1" 
+                    max="24" 
+                    value="{{ send_hour_end|default('18') }}" 
+                    placeholder="18"
+                    required
+                  >
+                  <i class="fas fa-moon input-icon"></i>
+                </div>
+              </div>
+            </div>
+            <div class="form-text">
+              <i class="fas fa-info-circle"></i>
+              Set your preferred time window for receiving newsletters (24-hour format)
+            </div>
+          </div>
+          
+          <div class="btn-group">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i>
+              Save Preferences
+            </button>
+            
+            {% if is_subscribed %}
+              <button type="button" class="btn btn-danger" onclick="handleSubscription(false)">
+                <i class="fas fa-bell-slash"></i>
+                Unsubscribe
+                <span class="status-badge status-active">Active</span>
+              </button>
+            {% else %}
+              <button type="button" class="btn btn-success" onclick="handleSubscription(true)">
+                <i class="fas fa-bell"></i>
+                Subscribe
+                <span class="status-badge status-inactive">Inactive</span>
+              </button>
+            {% endif %}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">
+    <i class="fas fa-check-circle"></i>
+    <span class="toast-message"></span>
+  </div>
+
+  <script>
+    // Enhanced animation timing with requestAnimationFrame
+    document.addEventListener('DOMContentLoaded', function() {
+      requestAnimationFrame(() => {
+        const formSections = document.querySelectorAll('.form-section');
+        formSections.forEach((section, index) => {
+          section.style.animationDelay = `${0.1 + (index * 0.1)}s`;
+        });
+        
+        // Smooth scroll to form if there are errors
+        const errorElements = document.querySelectorAll('.error');
+        if (errorElements.length > 0) {
+          requestAnimationFrame(() => {
+            document.querySelector('.container').scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+          });
+        }
+      });
+    });
+
+    // Enhanced scroll performance
+    document.addEventListener('scroll', function() {
+      // Use passive listeners for better performance
+    }, { passive: true });
+
+    async function handleSubscription(subscribe) {
+      const subscribeBtn = document.querySelector('.btn-success');
+      const unsubscribeBtn = document.querySelector('.btn-danger');
+      const activeBtn = subscribe ? subscribeBtn : unsubscribeBtn;
+      const toast = document.getElementById('toast');
+      const toastMessage = toast.querySelector('.toast-message');
+      
+      if (!activeBtn) return;
+      
+      const originalHTML = activeBtn.innerHTML;
+      const spinnerHTML = `<div class="spinner"></div> Processing...`;
+      
+      activeBtn.innerHTML = spinnerHTML;
+      activeBtn.classList.add('loading');
+      activeBtn.disabled = true;
+      
+      try {
+        const formData = {
+          subscribe: subscribe,
+          news_email: document.getElementById('news_email').value,
+          companies: document.getElementById('companies').value,
+          frequency: document.getElementById('frequency').value || 'week',
+          send_hour_start: document.getElementById('send_hour_start').value || 6,
+          send_hour_end: document.getElementById('send_hour_end').value || 18
+        };
+
+        const response = await fetch('/subscription', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          showToast(
+            subscribe ? 'Successfully subscribed to newsletter!' : 'Successfully unsubscribed from newsletter!',
+            'success',
+            subscribe ? 'fas fa-check-circle' : 'fas fa-times-circle'
+          );
+          
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          throw new Error(data.message || 'An error occurred. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showToast(
+          error.message || 'Failed to update subscription. Please try again.',
+          'error',
+          'fas fa-exclamation-triangle'
+        );
+      } finally {
+        activeBtn.innerHTML = originalHTML;
+        activeBtn.classList.remove('loading');
+        activeBtn.disabled = false;
+      }
+    }
+    
+    function showToast(message, type = 'success', icon = 'fas fa-check-circle') {
+      const toast = document.getElementById('toast');
+      const toastMessage = toast.querySelector('.toast-message');
+      const toastIcon = toast.querySelector('i');
+      
+      toast.className = `toast ${type}`;
+      toastIcon.className = icon;
+      toastMessage.textContent = message;
+      
+      // Cancel any ongoing animations
+      toast.style.animation = 'none';
+      requestAnimationFrame(() => {
+        toast.style.animation = '';
+        toast.classList.add('show');
+      });
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4000);
+    }
+    
+    document.getElementById('settingsForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalHTML = submitBtn.innerHTML;
+        const spinnerHTML = `<div class="spinner"></div> Saving...`;
+        
+        submitBtn.innerHTML = spinnerHTML;
+        submitBtn.disabled = true;
+        submitBtn.classList.add('loading');
+        
+        try {
+          // Get all form values
+          const formData = {
+            news_email: document.getElementById('news_email').value,
+            companies: document.getElementById('companies').value,
+            frequency: document.getElementById('frequency').value,
+            send_hour_start: document.getElementById('send_hour_start').value,
+            send_hour_end: document.getElementById('send_hour_end').value
+          };
+
+          const response = await fetch('/submit', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(formData)
+          });
+
+          const data = await response.json();
+          
+          if (!response.ok) {
+            throw new Error(data.message || 'Failed to save preferences');
+          }
+
+          // Update form fields with the returned data
+          if (data.data) {
+            document.getElementById('companies').value = data.data.companies || '';
+            document.getElementById('news_email').value = data.data.news_email || '';
+            document.getElementById('frequency').value = data.data.frequency || 'week';
+            document.getElementById('send_hour_start').value = data.data.send_hour_start || 6;
+            document.getElementById('send_hour_end').value = data.data.send_hour_end || 18;
+          }
+
+          showToast(data.message, 'success');
+          
+        } catch (error) {
+          console.error('Error:', error);
+          showToast(error.message || 'Failed to save preferences', 'error');
+        } finally {
+          submitBtn.innerHTML = originalHTML;
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('loading');
+        }
+      });
+    // Enhanced input focus animations with requestAnimationFrame
+    document.querySelectorAll('.form-control, .form-select').forEach(input => {
+      input.addEventListener('focus', function() {
+        requestAnimationFrame(() => {
+          this.parentElement.style.transform = 'translateY(-2px)';
+        });
+      });
+      
+      input.addEventListener('blur', function() {
+        requestAnimationFrame(() => {
+          this.parentElement.style.transform = 'translateY(0)';
+        });
+      });
+    });
+
+    // Form validation with smooth animations
+    document.querySelectorAll('.form-control, .form-select').forEach(input => {
+      input.addEventListener('invalid', function(e) {
+        e.preventDefault();
+        this.style.borderColor = 'var(--danger-color)';
+        this.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+        
+        // Remove the error styling after a delay
+        setTimeout(() => {
+          this.style.borderColor = '';
+          this.style.boxShadow = '';
+        }, 3000);
+      });
+    });
+
+    // Smooth scroll to invalid elements
+    document.addEventListener('invalid', (function() {
+      return function(e) {
+        e.preventDefault();
+        requestAnimationFrame(() => {
+          e.target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        });
+      };
+    })(), true);
+  </script>
+</body>
+</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPrime Newsletter | Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --cprime-blue: #0056b3;
+      --cprime-dark-blue: #003d82;
+      --cprime-accent: #ff6b00;
+      --cprime-light: #f0f7ff;
+      --success-color: #10b981;
+      --danger-color: #ef4444;
+      --warning-color: #f59e0b;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --border-radius-sm: 6px;
+      --border-radius: 12px;
+      --border-radius-lg: 16px;
+      --border-radius-xl: 24px;
+    }
+    
+    /* Enhanced smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+      overscroll-behavior-y: contain;
+    }
+    
+    body {
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--gray-800);
+      line-height: 1.6;
+      min-height: 100vh;
+      /* Adjusted body background for a smoother base */
+      background: linear-gradient(135deg, #717efd 0%, #a276e0 100%); /* Slightly lighter and more vibrant */
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Enhanced animated background */
+    .background-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      /* Adjusted background gradient for better blending */
+      background: linear-gradient(135deg, 
+        rgba(113, 126, 253, 0.7) 0%, /* Adjusted transparency and color */
+        rgba(162, 118, 224, 0.7) 50%, 
+        rgba(0, 86, 179, 0.8) 100%);
+    }
+
+    .floating-shapes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .shape {
+      position: absolute;
+      opacity: 0.15; /* Increased opacity slightly for more presence */
+      animation: float 20s infinite linear;
+    }
+
+    .shape-1 {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(45deg, var(--cprime-accent), var(--cprime-blue));
+      border-radius: 50%;
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .shape-2 {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(45deg, var(--cprime-blue), var(--cprime-dark-blue));
+      border-radius: 50%;
+      top: 70%;
+      right: 15%;
+      animation-delay: 5s;
+    }
+
+    .shape-3 {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(45deg, var(--cprime-accent), #ff8c42);
+      border-radius: 50%;
+      top: 40%;
+      left: 80%;
+      animation-delay: 10s;
+    }
+
+    .shape-4 {
+      width: 100px;
+      height: 100px;
+      /* Slightly adjusted transparent shape for better blend */
+      background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      border-radius: 50%;
+      top: 20%;
+      right: 40%;
+      animation-delay: 15s;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg); opacity: 0.15; } /* Updated initial opacity */
+      25% { transform: translateY(-20px) rotate(90deg); opacity: 0.25; } /* Increased peak opacity */
+      50% { transform: translateY(-40px) rotate(180deg); opacity: 0.15; }
+      75% { transform: translateY(-20px) rotate(270deg); opacity: 0.25; }
+      100% { transform: translateY(0px) rotate(360deg); opacity: 0.15; }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      scroll-margin-top: 20px;
+      will-change: transform;
+    }
+
+    .dashboard-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: var(--border-radius-xl);
+      box-shadow: var(--shadow-xl);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: 100%;
+      max-width: 800px;
+      overflow: hidden;
+      animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      margin: 2rem 0;
+      will-change: transform;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--cprime-blue) 0%, var(--cprime-dark-blue) 100%);
+      color: var(--white);
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .header-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2rem;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .card-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      font-weight: 400;
+      position: relative;
+      z-index: 1;
+      line-height: 1.5;
+    }
+
+    .card-body {
+      padding: 2.5rem;
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.6s ease-out;
+      animation-fill-mode: both;
+    }
+
+    .form-section:nth-child(1) { animation-delay: 0.1s; }
+    .form-section:nth-child(2) { animation-delay: 0.2s; }
+    .form-section:nth-child(3) { animation-delay: 0.3s; }
+    .form-section:nth-child(4) { animation-delay: 0.4s; }
+    .form-section:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 1.25rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+      z-index: 2;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 1rem 1.25rem 1rem 3.25rem;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      background: var(--white);
+      color: var(--gray-800);
+      position: relative;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--cprime-blue);
+      box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .form-control:focus + .input-icon {
+      color: var(--cprime-blue);
+    }
+
+    .form-control::placeholder {
+      color: var(--gray-400);
+      transition: opacity 0.3s ease;
+    }
+
+    .form-control:focus::placeholder {
+      opacity: 0.7;
+    }
+
+    .form-text {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin-top: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-text i {
+      color: var(--cprime-blue);
+      font-size: 1rem;
+    }
+
+    /* Custom select styles */
+    .form-select {
+      width: 100%;
+      padding: 1rem 1.25rem 1rem 3.25rem;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      background: var(--white);
+      color: var(--gray-800);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 16px 12px;
+    }
+
+    .form-select:focus {
+      outline: none;
+      border-color: var(--cprime-blue);
+      box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .time-range-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .time-input-group {
+      position: relative;
+    }
+
+    .time-label {
+      display: block;
+      font-weight: 500;
+      color: var(--gray-600);
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      min-height: 50px;
+      position: relative;
+      overflow: hidden;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cprime-blue), var(--cprime-dark-blue));
+      color: var(--white);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, var(--success-color), #059669);
+      color: var(--white);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, var(--danger-color), #dc2626);
+      color: var(--white);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-danger:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn:disabled,
+    .btn.loading {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-left: 0.75rem;
+    }
+
+    .status-active {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success-color);
+    }
+
+    .status-inactive {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger-color);
+    }
+
+    .status-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: statusPulse 2s infinite;
+    }
+
+    @keyframes statusPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .toast {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: var(--gray-800);
+      color: var(--white);
+      padding: 1.25rem 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-lg);
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 1000;
+      max-width: 400px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    .toast.success {
+      background: var(--success-color);
+    }
+
+    .toast.error {
+      background: var(--danger-color);
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid currentColor;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+        align-items: flex-start;
+      }
+
+      .dashboard-card {
+        border-radius: var(--border-radius-lg);
+        margin: 1.5rem 0;
+        max-width: 100%;
+      }
+
+      .card-header {
+        padding: 2rem 1.5rem 1.5rem;
+      }
+
+      .card-body {
+        padding: 2rem;
+      }
+
+      .card-title {
+        font-size: 1.8rem;
+      }
+
+      .card-subtitle {
+        font-size: 1rem;
+      }
+
+      .header-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+      }
+
+      .time-range-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .btn-group {
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .btn {
+        flex: none;
+        width: 100%;
+        padding: 1rem;
+      }
+
+      .form-control, .form-select {
+        padding: 1rem 1.25rem 1rem 3rem;
+      }
+
+      .input-icon {
+        font-size: 1rem;
+        left: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1rem;
+      }
+
+      .card-header {
+        padding: 1.5rem 1rem 1rem;
+      }
+
+      .card-body {
+        padding: 1.5rem;
+      }
+
+      .form-control, .form-select {
+        padding: 0.9rem 1rem 0.9rem 2.75rem;
+        font-size: 0.95rem;
+      }
+
+      .input-icon {
+        left: 0.9rem;
+        font-size: 0.95rem;
+      }
+
+      .form-label, .time-label {
+        font-size: 0.85rem;
+      }
+
+      .form-text {
+        font-size: 0.8rem;
+      }
+    }
+
+    /* Enhanced focus styles for accessibility */
+    .btn:focus-visible,
+    .form-control:focus-visible,
+    .form-select:focus-visible {
+      outline: 2px solid var(--cprime-accent);
+      outline-offset: 3px;
+    }
+
+    /* Loading animation improvements */
+    .btn .spinner {
+      margin-right: 0.75rem;
+    }
+
+    /* Smooth transitions for all interactive elements */
+    .form-control,
+    .form-select,
+    .btn,
+    .input-icon,
+    .toast {
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Custom scrollbar for better UX */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    /* Removed black spot by making scrollbar track transparent */
+    ::-webkit-scrollbar-track {
+      background: transparent; 
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 86, 179, 0.5); /* Slightly more opaque for better visibility */
+      border-radius: 10px;
+      transition: background 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 86, 179, 0.7); /* Darker on hover */
+    }
+
+    /* Smooth scrolling for the entire page */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Performance optimizations */
+    .dashboard-card,
+    .container {
+      will-change: transform;
+    }
+
+    /* Enhanced input animations */
+    .input-group {
+      transition: transform 0.3s ease;
+    }
+
+    .input-group:hover {
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+  <div class="background-animation"></div>
+  
+  <div class="floating-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="shape shape-4"></div>
+  </div>
+
+  <div class="container">
+    <div class="dashboard-card">
+      <div class="card-header">
+        <div class="header-icon">
+          <i class="fas fa-newspaper"></i>
+        </div>
+        <h1 class="card-title">CPrime Newsletter</h1>
+        <p class="card-subtitle">Customize your industry updates and stay informed</p>
+      </div>
+      
+      <div class="card-body">
+        <form id="settingsForm" method="post" action="{{ url_for_submit }}">
+          <div class="form-section">
+            <label for="news_email" class="form-label">Email Address</label>
+            <div class="input-group">
+              <input 
+                type="email" 
+                id="news_email" 
+                name="news_email" 
+                class="form-control" 
+                value="{{ news_email|default(email) }}" 
+                placeholder="your.email@company.com"
+                required
+              >
+              <i class="fas fa-envelope input-icon"></i>
+            </div>
+            <div class="form-text">
+              <i class="fas fa-info-circle"></i>
+              Newsletter updates will be sent to this address
+            </div>
+          </div>
+          
+          <div class="form-section">
+            <label for="companies" class="form-label">Companies to Monitor</label>
+            <div class="input-group">
+              <input 
+                type="text" 
+                id="companies" 
+                name="companies" 
+                class="form-control" 
+                value="{{ companies|default('') }}" 
+                placeholder="Google, Microsoft, Apple, Amazon, Tesla"
+                required
+              >
+              <i class="fas fa-building input-icon"></i>
+            </div>
+            <div class="form-text">
+              <i class="fas fa-lightbulb"></i>
+              Enter company names separated by commas
+            </div>
+          </div>
+          
+          <div class="form-section">
+            <label for="frequency" class="form-label">Update Frequency</label>
+            <div class="input-group">
+              <select 
+                id="frequency" 
+                name="frequency" 
+                class="form-select" 
+                required
+              >
+                <option value="day" {% if frequency|default('week') == 'day' %}selected{% endif %}>Daily</option>
+                <option value="week" {% if frequency|default('week') == 'week' %}selected{% endif %}>Weekly</option>
+                <option value="month" {% if frequency|default('week') == 'month' %}selected{% endif %}>Monthly</option>
+                <option value="year" {% if frequency|default('week') == 'year' %}selected{% endif %}>Yearly</option>
+              </select>
+              <i class="fas fa-calendar-alt input-icon"></i>
+            </div>
+            <div class="form-text">
+              <i class="fas fa-clock"></i>
+              How often you want to receive updates
             </div>
           </div>
           
