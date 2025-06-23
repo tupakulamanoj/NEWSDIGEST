@@ -3,6 +3,9 @@ from datetime import datetime, timedelta
 from pytz import timezone, utc
 from supabase_client import supabase
 from jobs import run_user_job
+from dramatiq import set_broker
+from dramatiq.brokers.redis import RedisBroker
+import os
 import logging
 redis_broker = RedisBroker(url=os.getenv("REDIS_URL"))
 set_broker(redis_broker)
