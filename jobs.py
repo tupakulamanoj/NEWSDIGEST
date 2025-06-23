@@ -28,6 +28,13 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 load_dotenv()
+import os
+from dramatiq import set_broker
+from dramatiq.brokers.redis import RedisBroker
+
+REDIS_URL = os.getenv("REDIS_URL")  # Must be set in Railway
+redis_broker = RedisBroker(url=REDIS_URL)
+set_broker(redis_broker)
 
 # Define network error types explicitly as a tuple of types
 NETWORK_ERRORS = (httpx.NetworkError, httpx.ReadError, httpx.ConnectError, httpx.TimeoutException, APIError)
