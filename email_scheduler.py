@@ -7,10 +7,10 @@ from dramatiq import set_broker
 from dramatiq.brokers.redis import RedisBroker
 import os
 import logging
-from dramatiq.encoder import Encoder
+from dramatiq.encoder import JSONEncoder
 redis_broker = RedisBroker(
     url=os.getenv("REDIS_URL"),
-    encoder=Encoder()
+    encoder=JSONEncoder()
 )
 set_broker(redis_broker)
 logging.basicConfig(level=logging.INFO)
