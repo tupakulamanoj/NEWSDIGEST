@@ -4,7 +4,8 @@ from pytz import timezone, utc
 from supabase_client import supabase
 from jobs import run_user_job
 import logging
-
+redis_broker = RedisBroker(url=os.getenv("REDIS_URL"))
+set_broker(redis_broker)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 IST = timezone("Asia/Kolkata")
