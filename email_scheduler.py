@@ -121,7 +121,9 @@ def check_and_send_emails():
                         "last_email": email
                     }).execute()
                     
-                    run_user_job.send(user_id, email, customer.get('company_names', ''), interval=interval)
+                    # run_user_job.send(user_id, email, customer.get('company_names', ''), interval=interval)
+                    message = run_user_job.send(user_id, email, customer.get('company_names', ''), interval=interval)
+                    logger.info(f"Enqueued Dramatiq job → email={email}, message_id={message.message_id}")
                     logger.info(f"Queued email for {email}")
                     emails_queued += 1
                     
