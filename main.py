@@ -110,7 +110,6 @@ async def handle_subscription(request: Request):
             {'success': False, 'message': 'An error occurred'}, 
             status_code=500
         )
-
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request):
     if 'email' not in request.session:
@@ -121,25 +120,23 @@ async def dashboard(request: Request):
         customer_data = get_customer_data(request.session['email']) if is_subscribed else None
         
         defaults = {
-            'company_names': '',
+            'companies': '',  # Changed from 'company_names' to match template
             'frequency': 'week',
             'send_hour_start': 6,
             'send_hour_end': 18,
-            'submit_url': request.url_for('submit')
+            'submit_url': request.url_for('submit'),
+            'news_email': request.session.get('email', '')
         }
         
         if customer_data:
             defaults.update({
-                'company_names': customer_data.get('companies', ''),
+                'companies': customer_data.get('companies', ''),  # Changed key to match template
                 'frequency': customer_data.get('frequency', 'week'),
                 'send_hour_start': customer_data.get('send_hour_start', 6),
                 'send_hour_end': customer_data.get('send_hour_end', 18),
-                'news_email': request.session.get('news_email', customer_data.get('news_email', ''))
+                'news_email': customer_data.get('news_email', request.session.get('email', ''))
             })
-        else:
-            defaults['news_email'] = request.session.get('news_email', request.session.get('email', ''))
             
-        
         return templates.TemplateResponse(
             "dashboard.html",
             {
@@ -147,7 +144,7 @@ async def dashboard(request: Request):
                 "name": request.session.get('name', ''),
                 "email": request.session.get('email', ''),
                 "news_email": defaults['news_email'],
-                "companies": defaults['company_names'],
+                "companies": defaults['companies'],  # Pass empty string or user's companies
                 "frequency": defaults['frequency'],
                 "send_hour_start": defaults['send_hour_start'],
                 "send_hour_end": defaults['send_hour_end'],
@@ -161,7 +158,6 @@ async def dashboard(request: Request):
             "error.html", 
             {"request": request, "message": "An error occurred while loading the dashboard"}
         )
-
 @app.post("/submit")
 async def submit(request: Request):
     if 'email' not in request.session:
