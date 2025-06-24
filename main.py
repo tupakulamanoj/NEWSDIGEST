@@ -130,7 +130,7 @@ async def dashboard(request: Request):
         
         if customer_data:
             defaults.update({
-                'companies': customer_data.get('companies', ''),  # Changed key to match template
+                'companies': customer_data.get('company_names', ''),  # Changed key to match template
                 'frequency': customer_data.get('frequency', 'week'),
                 'send_hour_start': customer_data.get('send_hour_start', 6),
                 'send_hour_end': customer_data.get('send_hour_end', 18),
